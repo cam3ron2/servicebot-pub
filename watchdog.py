@@ -79,14 +79,14 @@ conn.commit()
 
 # pump data into database
 for x in range(incident_count):
-    c.execute("INSERT OR IGNORE INTO sn(incident_number,routing_company,created_time,incident_state,short_desc,assigned_to,incident_priority,assignment_group,updated_time) VALUES('"+incidents_raw[x][1]+"','"+incidents_raw[x][2]+"','"+incidents_raw[x][3]+"','"+incidents_raw[x][4]+"','"+incidents_raw[x][5]+"','"+incidents_raw[x][6]+"','"+incidents_raw[x][7]+"','"+incidents_raw[x][8]+"','"+incidents_raw[x][9]+"')")
+    c.execute("INSERT OR IGNORE INTO INCS(incident_number,routing_company,created_time,incident_state,short_desc,assigned_to,incident_priority,assignment_group,updated_time) VALUES('"+incidents_raw[x][1]+"','"+incidents_raw[x][2]+"','"+incidents_raw[x][3]+"','"+incidents_raw[x][4]+"','"+incidents_raw[x][5]+"','"+incidents_raw[x][6]+"','"+incidents_raw[x][7]+"','"+incidents_raw[x][8]+"','"+incidents_raw[x][9]+"')")
     conn.commit()
 
 for x in range(incident_count):
-    c.execute("UPDATE OR IGNORE sn SET incident_state='"+incidents_raw[x][4]+"', assigned_to='"+incidents_raw[x][6]+"', incident_priority='"+incidents_raw[x][7]+"', assignment_group='"+incidents_raw[x][8]+"', updated_time='"+incidents_raw[x][9]+"' where incident_number='"+incidents_raw[x][1]+"'")
+    c.execute("UPDATE OR IGNORE INCS SET incident_state='"+incidents_raw[x][4]+"', assigned_to='"+incidents_raw[x][6]+"', incident_priority='"+incidents_raw[x][7]+"', assignment_group='"+incidents_raw[x][8]+"', updated_time='"+incidents_raw[x][9]+"' where incident_number='"+incidents_raw[x][1]+"'")
     conn.commit()
 # grab incidents that have not yet been broadcast
-for row in c.execute('SELECT * FROM sn WHERE broadcast is NULL'):
+for row in c.execute('SELECT * FROM INCS WHERE broadcast is NULL'):
     row_message = '[{"title": "' + row[0] + ' - '+row[6]+' - '+row[3]+'\n <' + SN_LINKS + row[0] + '>", "pretext": "An Incident has been assigned to your group!", "text": "'+row[4]+'"}]'
     print(row[0])
     sc.api_call(
