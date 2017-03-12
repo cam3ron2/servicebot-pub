@@ -1,5 +1,4 @@
 #!/bin/python3
-# token xoxb-142932977728-Yo1NrFsOWXvtDaEeA15geJYj
 import time
 import os
 import sys
